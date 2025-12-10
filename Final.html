@@ -294,10 +294,27 @@
             let msgElement = document.getElementById('msg');
             
             if(ans == 33) {
-                msgElement.innerHTML = "You Passed";
-                msgElement.style.color = "greenyellow";
-                msgElement.style.textShadow = "0 0 30px rgba(0, 255, 0, 0.8)";
-                msgElement.style.filter = "drop-shadow(0 0 20px rgba(0, 255, 60, 0.8))";
+                let timerInterval;
+Swal.fire({
+  title: "YOU HAVE COMPLETED PHASE I",
+  html: "Next Phase in <b></b> ms.",
+  timer: 2000,
+  timerProgressBar: true,
+  didOpen: () => {
+    Swal.showLoading();
+    const timer = Swal.getPopup().querySelector("b");
+    timerInterval = setInterval(() => {
+      timer.textContent = `${Swal.getTimerLeft()}`;
+    }, 100);
+  },
+  willClose: () => {
+    clearInterval(timerInterval);
+  }
+}).then((result) => {
+  if (result.dismiss === Swal.DismissReason.timer) {
+    console.log("I was closed by the timer");
+  }
+});
             }
             else if(!ans){
                 msgElement.innerHTML = "Enter in the CODE";
